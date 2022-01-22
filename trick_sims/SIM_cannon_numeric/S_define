@@ -1,0 +1,27 @@
+/****************************************************************
+PURPOSE: (S_define File for SIM_cannon_numeric.)
+LIBRARY_DEPENDENCY: ((cannon/src/cannon_init.c)
+                     (cannon/src/cannon_numeric.c)
+                     (cannon/src/cannon_shutdown.c))
+****************************************************************/
+#include "sim_objects/default_trick_sys.sm"
+##include "cannon/include/cannon_numeric.h"
+
+class CannonSimObject : public Trick::SimObject {
+    public:
+    CANNON cannon ;
+    CannonSimObject() {
+        ("initialization") cannon_init( &cannon ) ;
+        ("default_data") cannon_default_data( &cannon ) ;
+        ("derivative") cannon_deriv( &cannon) ;
+        ("integration") trick_ret= cannon_integ( &cannon);
+        ("shutdown") cannon_shutdown( &cannon);
+        ("dynamic_event") cannon_impact( &cannon) ;
+    }
+};
+
+CannonSimObject dyn ;
+IntegLoop dyn_integloop (0.01) dyn ;
+void create_connections() {
+    dyn_integloop.getIntegrator(Runge_Kutta_4, 4);
+}

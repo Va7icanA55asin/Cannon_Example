@@ -1,0 +1,11 @@
+.vscode
+**/build
+**.exe
+**/trick/
+**/*log*
+**/makefile
+**/S_job_execution
+**/S_run_summary
+**/send_hs
+**/S_sie.resource
+**/S_source.hh
